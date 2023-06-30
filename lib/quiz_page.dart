@@ -18,8 +18,8 @@ class _QuizPageState extends State<QuizPage> {
   Audio wrongAudio = Audio.load('assets/wrong.mp3');
   int rightButtonOpacity = 164;
   int wrongButtonOpacity = 180;
-  void updatePage(bool answer) {
-    if (questionBank[questionNumber].answer == answer) {
+  void updatePage({required bool userChoice}) {
+    if (questionBank[questionNumber].answer == userChoice) {
       scoreKeeper.add(right);
       rightAudio.play();
       rightButtonOpacity += 10;
@@ -84,7 +84,7 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          updatePage(true);
+                          updatePage(userChoice: true);
                         });
                       },
                     ),
@@ -110,7 +110,7 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          updatePage(false);
+                          updatePage(userChoice: false);
                         });
                       },
                     ),
