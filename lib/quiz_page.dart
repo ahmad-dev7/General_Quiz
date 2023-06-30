@@ -18,12 +18,24 @@ class _QuizPageState extends State<QuizPage> {
   Audio wrongAudio = Audio.load('assets/wrong.mp3');
   int rightButtonOpacity = 164;
   int wrongButtonOpacity = 180;
+  void updatePage(bool answer) {
+    if (questionBank[questionNumber].answer == answer) {
+      scoreKeeper.add(right);
+      rightAudio.play();
+      rightButtonOpacity += 10;
+      wrongButtonOpacity -= 10;
+    } else {
+      scoreKeeper.add(wrong);
+      wrongAudio.play();
+      wrongButtonOpacity += 10;
+      rightButtonOpacity -= 10;
+    }
+    ++questionNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // questionNumber = 0;
-    // scoreKeeper.clear();
     int correctAnswer = scoreKeeper.where((icon) => icon == right).length;
-    // int wrongAnswer = scoreKeeper.where((icon) => icon == right).length;
     int totalQuestions = questionBank.length;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,18 +84,7 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          if (questionBank[questionNumber].answer == true) {
-                            scoreKeeper.add(right);
-                            rightAudio.play();
-                            rightButtonOpacity += 10;
-                            wrongButtonOpacity -= 10;
-                          } else {
-                            scoreKeeper.add(wrong);
-                            wrongAudio.play();
-                            wrongButtonOpacity += 10;
-                            rightButtonOpacity -= 10;
-                          }
-                          ++questionNumber;
+                          updatePage(true);
                         });
                       },
                     ),
@@ -109,18 +110,7 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          if (questionBank[questionNumber].answer == false) {
-                            scoreKeeper.add(right);
-                            rightAudio.play();
-                            rightButtonOpacity += 10;
-                            wrongButtonOpacity -= 10;
-                          } else {
-                            scoreKeeper.add(wrong);
-                            wrongAudio.play();
-                            wrongButtonOpacity += 10;
-                            rightButtonOpacity -= 10;
-                          }
-                          ++questionNumber;
+                          updatePage(false);
                         });
                       },
                     ),
